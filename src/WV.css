@@ -1,0 +1,48 @@
+ 
+
+
+  
+
+.jb-text {
+  padding: 15px 20px;
+  background-color: #444444;
+  border-radius: 5px;
+  color: #ffffff;
+  display: none;
+  opacity: 1;
+  position: absolute;
+  position: relative;
+}
+.jb-title:hover + .jb-text {
+
+  opacity: 1;
+  display: block;
+}
+.jb-nav:hover  {
+  transform: scale(1.2);
+  color:black;
+  font-weight: bold;
+  transition-duration: 0.5s;
+  opacity: 1;
+  display: block;
+  cursor:pointer
+}
+
+
+.jb-enlargement {
+
+}
+
+
+
+.navMenu {
+  color: "grey";
+  text-decoration: none
+}
+
+.homeAnnouncement {
+  all:"unset";
+  color: "black";
+  text-decoration: none;
+  cursor: "pointer"
+}

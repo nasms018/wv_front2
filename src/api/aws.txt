@@ -1,0 +1,28 @@
+rds 설정변경
+lower_case_table_names = 1  대소문자 구분
+log_bin_trust_function_creators = 1  함수(NEXT_PK)안들어가는 문제
+
+
+
+pakage.json
+끝에 두개 추가
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+
+맨마지막에 추가
+,
+  "homepage": "https://nasms018.github.io/"
+
+axios.js
+주소변경
+
+setProxy.js
+주소변경
+http://localhost:8080           (복붙하기 좋게 일단 적어둠)
+http://ec2-52-78-208-249.ap-northeast-2.compute.amazonaws.com:8080/

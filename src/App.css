@@ -7,6 +7,95 @@
   pointer-events: none;
 }
 
+.SeriesTable {
+  align-items: center;
+}
+
+.Question {
+  align-items: left;
+}
+
+.Canvas {
+  width: 1024;
+  height: 768;
+}
+
+
+
+.jb-text {
+  padding: 15px 20px;
+  background-color: #444444;
+  border-radius: 5px;
+  color: #ffffff;
+  display: none;
+  opacity: 1;
+  position: absolute;
+  position: relative;
+}
+.jb-title:hover + .jb-text {
+
+  opacity: 1;
+  display: block;
+}
+.jb-nav:hover  {
+  transform: scale(1.2);
+  color:black;
+  font-weight: bold;
+  transition-duration: 0.5s;
+  opacity: 1;
+  display: block;
+  cursor:pointer;
+  
+}
+
+
+.jb-enlargement {
+
+}
+
+.homeAnnouncement {
+  all:"unset";
+  color: "black";
+  text-decoration: none;
+  cursor: "pointer"
+}
+
+.cropping{
+  overflow: hidden;
+  clip-path: polygon(200px 0px 300px 0px);
+}
+
+.cropping img{
+	max-width: initial;
+
+  margin-top: -15%;
+  clip-path: polygon(200px 0px 300px 0px);
+  object-position: 20% 10%;
+}
+
+.clipmain { position: relative;
+  width: 550px;
+  height: 700px;
+  overflow: hidden;
+  top: -50px;
+  left: 0;
+  margin-top: -30%;
+  margin-bottom:-20%;
+  max-height: initial;
+}
+
+
+.navMenu {
+  color: "grey";
+  text-decoration: "none";
+}
+
+
+
+
+.wvclip{
+clip: rect( 20px, 220px, 220px, 20px )
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

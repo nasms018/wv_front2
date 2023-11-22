@@ -1,0 +1,45 @@
+#npm 설치 모듈 정리
+npm i react-router-dom
+npm i react-router
+npm i axios
+
+npm install bootstrap@5.3.1
+npm install react-bootstrap bootstrap
+
+다음 우편번호
+npm install react-daum-postcode
+
+#일단 연습
+npm install react-drag-list
+npm install react-draggable
+
+카카오맵 -안되고 있는중
+npm install react-kakao-maps-sdk
+
+파스타
+npm i react-icons
+
+스크롤링? 아래 둘다 실패 깔필요 없음 
+일단 셋다 깔지 말아보세요
+        npm i react-virtualized
+        npm i react-infinite-scroller
+        npm install react-kakao-login
+
+드래그 앤 드롭 - 뭐가 더 좋은건지 모르겠어서 일단 다 넣고 있
+npm i react-use-gesture
+        npm i react-spring --save
+
+호버
+npm i @emotion/styled 
+
+리액트 테이블
+npm i react-table
+
+리덕스 -- 당장 쓰기에는 투머치라는 걸 깨달음 -> 앱컨텍스트로 충분히 대체 가능
+참조 링크 : https://velog.io/@kokoball0/React-useContext-%EC%82%AC%EC%9A%A9%EB%B2%95-%EB%B0%8F-redux%EC%99%80-%EC%B0%A8%EC%9D%B4%EC%A0%90
+npm install react-redux
+
+
+니보
+npm install @nivo/core
+npm install @nivo/bar
