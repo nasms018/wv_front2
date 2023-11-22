@@ -8,7 +8,7 @@ import AppContext from "context/AppContextProvider";
 
 
 export default function TestNav() {
-  const boardListUri = `/bb/anonymous/listAll`;
+  const boardListUri = `http://ec2-52-78-208-249.ap-northeast-2.compute.amazonaws.com:8080/bb/anonymous/listAll`;
 
   const { auth } = useContext(AppContext);
   console.log(auth);
