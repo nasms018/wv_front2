@@ -26,3 +26,6 @@ setProxy.js
 주소변경
 http://localhost:8080           (복붙하기 좋게 일단 적어둠)
 http://ec2-52-78-208-249.ap-northeast-2.compute.amazonaws.com:8080/
+http://52.78.208.249:8080
+
+http://13.125.107.223
