@@ -17,6 +17,7 @@ import Test3 from 'example/Test3';
 import Test4 from 'example/Test4';
 import Test5 from 'example/Test5';
 import Test6 from 'example/Test6';
+import Test7 from 'example/Test7';
 import ReportPrev from 'components/ReportPrev';
 import PostNormal from 'components/PostNormal';
 import FavoritesPrev from 'components/FavoritesPrev';
@@ -28,6 +29,7 @@ import ToolView from 'component-tool/ToolView';
 import NotFound from 'components/NotFound';
 import MemberPrev from 'login/MemberPrev';
 import UserSeriesPrev from 'login/UserSeriesPrev';
+import WorkStatistics from 'statistics/WorkStatistics';
 export default function WVRouter() {
     return (
         <Routes> 
@@ -46,6 +48,7 @@ export default function WVRouter() {
           <Route path={"/series/:seriesId/tool/"} element={ <ToolExplorer/> } />
           <Route path={"/series/:seriesId/tool/:idPath"} element={ <ToolExplorer/> } />
           <Route path={"/series/:seriesId/tool/:idPath/view"} element={ <ToolView/> } />
+          <Route path={"/series/:seriesId/statistics"} element={ <WorkStatistics/> } />
           <Route path={"/post/:postId"} element={ <PostDetails/> } />
           <Route path={"/FavoritesPrev"} element={ <FavoritesPrev/> } />
           <Route path={"/ReportDetails/:ReportId"} element={ <ReportDetails/> } />
@@ -66,6 +69,7 @@ export default function WVRouter() {
           <Route path={"/test4"} element={<Test4 />} />
           <Route path={"/Test5"} element={<Test5 />} />
           <Route path={"/Test6"} element={<Test6 />} />
+          <Route path={"/Test7"} element={<Test7 />} />
   
           <Route path="*" element={<NotFound/>}/>
         </Routes>

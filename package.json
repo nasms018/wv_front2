@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "export HTTPS=true&&SSL_CRT_FILE=cert.pem&&SSL_KEY_FILE=key.pem react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false npx react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -62,7 +62,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://52.78.208.249:8080/",
+  "proxy": "http://ec2-43-200-121-6.ap-northeast-2.compute.amazonaws.com:8080/",
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "babel-loader": "^9.1.3",

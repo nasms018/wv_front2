@@ -8,13 +8,18 @@ import { Link } from "react-router-dom";
 
 export default function ReportList({dataList, setLastIntersectingImage=f=>f, auth}) {
     console.log(dataList)
+    const backgroundColorTD = {
+        backgroundColor: "#aa7755"
+    }
     return <>
         <Table striped variant="light">
             <thead>
-                <th>작성일</th>
-                <th>신고자</th>
-                <th>신고대상</th>
-                <th>첨부</th>
+            <tr>
+                <th style={backgroundColorTD}>작성일</th>
+                <th style={backgroundColorTD}>신고자</th>
+                <th style={backgroundColorTD}>신고대상</th>
+                <th style={backgroundColorTD}>첨부</th>
+            </tr>
             </thead>
             <tbody>
                 {dataList.map((report, index) => {

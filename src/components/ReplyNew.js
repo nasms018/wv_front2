@@ -3,8 +3,10 @@ import { Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useLocation } from 'react-router';
 
 function ReplyNew({ auth, reply, replayOnReply, onInputReplyContent, mngReply = f => f }) {
+
     if (!auth.userId)
         return;
 
@@ -17,7 +19,8 @@ function ReplyNew({ auth, reply, replayOnReply, onInputReplyContent, mngReply = 
                         style={{ height: "100%", width: "100%" }}
                         onInput={(e) => onInputReplyContent(e, reply?.id, false)} />
                 </Col>
-                <Col sm><Button size="sm" variant="outline-primary" onClick={(e) => { mngReply(e, reply?.id) }}>적용</Button></Col>
+                <Col sm><Button size="sm" variant="outline-primary" onClick={(e) => { mngReply(e, reply?.id) }}>적용</Button>
+               </Col>
             </Row>
         </Container>
 

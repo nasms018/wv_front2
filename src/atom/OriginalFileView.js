@@ -17,6 +17,7 @@ export default function OriginalFileView({imgUrl, afdto}) {
   }
 
   const getOriginalFile = () => {
+    console.log("꺅, 눌렸다!")
     axios.post(`/attach/anonymous/getOriginalFile`, afdto,
         {
             headers: { "Content-Type": "application/json" },
@@ -25,9 +26,13 @@ export default function OriginalFileView({imgUrl, afdto}) {
         .then(buildUri)
         .catch(error=>{
             console.log("getOriginalFile", error);
+            
         });
 
   }
+
+  console.log("날 어디로 보내려는 거야?", imgUrl)
+  console.log("뭐랑 같이 보내려는 거야?", afdto)
 
   return <>
       <img src={imgUrl} onClick={(e) => {getOriginalFile()}} />

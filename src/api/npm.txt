@@ -43,3 +43,11 @@ npm install react-redux
 니보
 npm install @nivo/core
 npm install @nivo/bar
+
+깃허브 연결을 위한..
+npm install --save gh-pages
+npm install gh-pages
+
+
+구글 차트
+npm install --save react-google-charts

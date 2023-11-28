@@ -7,22 +7,24 @@ import { AxiosPost, Fetch } from "toolbox/Fetch";
 import AppContext from "context/AppContextProvider";
 
 
-export default function TestNav() {
-  const boardListUri = `http://ec2-52-78-208-249.ap-northeast-2.compute.amazonaws.com:8080/bb/anonymous/listAll`;
+export default function WVNav() {
+  const boardListUri = `/bb/anonymous/listAll`;
 
   const { auth } = useContext(AppContext);
   console.log(auth);
   const navMenu = {
-    color: "grey",
+    color: "#aa7755",
     textDecoration: "none",
 
   }
 
   return <>
-    <Navbar expand="lg" className="bg-body-tertiary"  style={{position: "sticky", top: 0, zIndex: "2"}}>
+    <Navbar expand="lg"
+      style={{ position: "sticky", top: 0, zIndex: "2", backgroundColor : "#ead4bb"}}
+    >
       <Container>
         <Navbar.Brand href="/"><Link style={navMenu} to='/' class="jb-nav">WonderVatory</Link></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto  my-2 my-lg-0">
             <LoginButton className="me-auto  my-2 my-lg-0" />
@@ -35,15 +37,16 @@ export default function TestNav() {
               </>
               : ""
             }
+            <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test3" >테스트용3</Link></Nav.Link>
             {/*
             <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test5">테스트용5</Link></Nav.Link>
             <Nav.Link><Link style={navMenu} class="jb-nav" to="/test2">테스트용2</Link></Nav.Link>
             <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test4" >테스트용4</Link></Nav.Link>
-          */}
           <Nav.Link><Link style={navMenu} class="jb-nav" to="/test1">테스트용</Link></Nav.Link>
-          <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test3" >테스트용3</Link></Nav.Link>
           <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test5">테스트용5</Link></Nav.Link>
             <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test6">테스트용6</Link></Nav.Link>
+          */}
+          <Nav.Link><Link style={navMenu} class="jb-nav" to="/Test7">테스트용7</Link></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

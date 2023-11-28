@@ -20,8 +20,8 @@ export default function MemberPrev() {
     const uri = `/party/listAllAccount/0000/${page}/id`
     const [sortation] = useState("member");
 
-    return <ListSortation  page={page} setPage={setPage}
+    return <><br/><br/><ListSortation  page={page} setPage={setPage}
     postList={postList} setPostList={setPostList}
     uri={uri} sortation={sortation}
-    />
+    /></>
 }

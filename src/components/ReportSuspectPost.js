@@ -37,6 +37,7 @@ export default function ReportSuspectPost({ report, data }) {
         </tr>
         <tr>
           <td>첨부</td>
+          {console.log(report.listAttachFile)}
           <td colSpan="5" width="70%"><ThumbnailList imgDtoList={report.listAttachFile} /></td>
 
         </tr>

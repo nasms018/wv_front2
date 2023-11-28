@@ -135,15 +135,15 @@ const Register = () => {
 
   return (
     <>
-      <form>
+    <fieldset>
+        <legend>회원 가입</legend>
+      <form style={{width:"60%", margin: "auto" }}>
         <InputGroup className="mb-3" style={{
           display: "inline-block",
-          align: "center", width: "50%", backgroundColor: ""
+          align: "center", width: "60%", backgroundColor: ""
+          
         }}>
-          <InputGroup.Text id="basic-addon0" style={{
-            display: "inline-block",
-            textAlign: "center"
-          }}>회원가입</InputGroup.Text>
+       
         </InputGroup>
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1">이름</InputGroup.Text>
@@ -322,7 +322,7 @@ const Register = () => {
       >
         Sign Up
       </Button>
-
+      </fieldset>
     </>
   );
 };

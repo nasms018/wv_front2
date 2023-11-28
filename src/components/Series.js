@@ -52,14 +52,12 @@ export default function Series() {
                   console.log("그래서 좋다는 거지?", res)
                   return <><Favorites favorites={res?.data} post={data} /></>
                 }} />}
-
-
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td rowSpan='5' width="40%"><OriginalViewOne imgDtoList={data.listAttachFile} x="300" y="auto" /></td>
+            <td rowSpan='5' width="40%"><OriginalViewOne imgDtoList={data.listAttachFile} x="50%" y="auto" /></td>
             <td><LoginTypeIcon loginType={data?.writer?.accountType} />{!data.writer?.nick ? data.writer?.kakaoNick : data.writer?.nick}</td>
           </tr>
           <tr>

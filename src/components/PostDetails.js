@@ -13,17 +13,21 @@ import axios from "api/axios";
 import PostPrevNext from "./PostPrevNext";
 import LoginTypeIcon from "toolbox/LoginTypeIcon";
 import { AxiosAuth, Fetch } from "toolbox/Fetch";
+import { BiArrowToTop, BiArrowToBottom  } from "react-icons/bi";
+
 
 export default function PostDetails() {
   const navigate = useNavigate();
   const { auth } = useContext(AppContext);
   const location = useLocation();
   const state = location.state;
-  const post = location.state.post;
+  const post = location.state?.post;
   console.log("지금 상태는 어때?", state);
   const [nowLike, setLike] = useState(post?.likeCount);
   const [nowDislike, setDisLike] = useState(post?.dislikeCount);
   const postUri = `/work/anonymous/findById/${post?.id}`;
+
+
 
   const onLike = async (id, like) => {
     let newLike = like++;
@@ -84,51 +88,69 @@ export default function PostDetails() {
       navigate(-1, { state: state });
     }
   }
+
+  const onTop = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0 });
+  }
+  const onBottom = (e) => {
+    e.preventDefault();
+    window.scrollTo(0, document.body.scrollHeight);
+  }
+
   return <>
-    <AxiosAuth uri={postUri} renderSuccess={({data}) => <RenderSuccess post={data} />} />
+    <AxiosAuth uri={postUri} renderSuccess={({ data }) => <RenderSuccess post={data} />} />
   </>
 
   function RenderSuccess({ post }) {
     console.log("포스트 내용 좀 보자", post)
-  return <>
-    <ListGroup as="ul">
-      <ListGroup.Item variant="light" as="li" style={{ whiteSpace: "pre-line", textAlign: "left", width: "50%", margin: "auto" }}>
-        <div>{post?.content}</div></ListGroup.Item>
-      <ListGroup.Item as="li" disabled>
-        {(state?.boardId === "0000" || state?.boardId === "0001") ? <ThumbnailList imgDtoList={post?.listAttachFile} /> :
-          <OriginalViewList imgDtoList={post?.listAttachFile} x="51%" y="51%" />}
-      </ListGroup.Item>
-      <ListGroup.Item>
-        <LoginTypeIcon loginType={post?.writer?.accountType} />{!post.writer?.nick ? post.writer?.kakaoNick : post.writer?.nick}&nbsp;&nbsp;
-        ✔<span>{post.readCount}</span>&nbsp;&nbsp;
-        <span onClick={() => { onLike(post.id, post.likeCount) }}>👍{nowLike}</span>&nbsp;&nbsp;
-        <span onClick={() => { onDisLike(post.id, post.dislikeCount) }}>😡{nowDislike}</span>
-        🕐<span>{displayDate(post.regDt, post.uptDt)} </span><br /></ListGroup.Item>
-      <ListGroup.Item> <PostPrevNext post={post} state={{ parentId: state.parentId, boardId: state.boardId, page: state.page }} /></ListGroup.Item>
-    </ListGroup>
-    {state?.boardId === "0000" ?
-      <Link key={state.parentId} to={`/`} state={{ seriesId: state.parentId, page: state.page, boardId: state.boardId }}><Button variant="outline-warning">목록</Button></Link>
-      : (state?.boardId === "0001")
-        ? <Link key={state.parentId} to={`/board/${state.boardId}`} state={{ seriesId: state.parentId, page: state.page, boardId: state.boardId }}><Button variant="outline-warning">목록</Button></Link>
-        : <Link key={state.parentId} to={`/series/${state?.parentId}`} state={{ seriesId: state.parentId, page: state.page, boardId: state.boardId }}><Button variant="outline-warning">목록</Button></Link>}
-    &nbsp;
+    console.log("스테이트 좀 보자", state)
+    return <>
+      <div style={{ position: "fixed", zIndex: "2", opacity: 0.6, overflow: "auto", right: "5%", top: "33%"}}>
+          <Button variant="outline-danger" onClick={(e) => onTop(e)}><BiArrowToTop /></Button><br/><br/>
+          <Button variant="outline-danger" onClick={(e) => onBottom(e)}><BiArrowToBottom /></Button>
+      </div>
 
-    {(post.writer ? post.writer.id === auth.userId : false) ? <>
-      <Link
-        to={`/series/${post.id}/mng`}
-        state={{ seriesId: state.seriesId, post, state, parentId: state.parentId }}
-      ><Button variant="outline-info">수정</Button></Link>&nbsp;<Button variant="outline-dark" onClick={handleDelete}>삭제</Button></> : ""}
-    <br />
+      <ListGroup as="ul" style={{ width: "60%", margin: "auto" }}>
+        
+        <ListGroup.Item variant="light" as="li" style={{ whiteSpace: "pre-line", textAlign: "left" }}>
+          <div>{post?.content}</div></ListGroup.Item>
+        <ListGroup.Item as="li">
+          {(state?.boardId === "0000" || state?.boardId === "0001") ? <ThumbnailList imgDtoList={post?.listAttachFile} /> :
+            <OriginalViewList imgDtoList={post?.listAttachFile} x="90%" y="90%" />}
+        </ListGroup.Item>
+        <ListGroup.Item>
+          <LoginTypeIcon loginType={post?.writer?.accountType} />{!post.writer?.nick ? post.writer?.kakaoNick : post.writer?.nick}&nbsp;&nbsp;
+          ✔<span>{post.readCount}</span>&nbsp;&nbsp;
+          <span onClick={() => { onLike(post.id, post.likeCount) }}>👍{nowLike}</span>&nbsp;&nbsp;
+          <span onClick={() => { onDisLike(post.id, post.dislikeCount) }}>😡{nowDislike}</span>
+          🕐<span>{displayDate(post.regDt, post.uptDt)} </span><br /></ListGroup.Item>
+        <ListGroup.Item> <PostPrevNext post={post} /></ListGroup.Item>
+        <ListGroup.Item>
+          {(state?.boardId === "0000" || state?.boardId === "0001") ?
+            <Link key={state.parentId} to={`/board/${state.boardId}`} state={{ page: state.page, boardId: state.boardId, post: post, parentId: state?.parentId, seriesId: state.parentId }}><Button variant="outline-warning">목록</Button></Link>
+            : <Link key={state.parentId} to={`/series/${state?.parentId}`} state={{ seriesId: state.parentId, page: state.page, boardId: state.boardId, post: post, parentId: state?.parentId }}><Button variant="outline-warning">목록</Button></Link>}
+          &nbsp;
 
-    <Accordion>
-      <Accordion.Item eventKey="0">
-        <Accordion.Header>댓글확인</Accordion.Header>
-        <Accordion.Body>
-          <ReplyList parent={post} state={{ seriesId: state.seriesId, post, state, parentId: state.parentId, boardId: state.boardId }} />
-        </Accordion.Body>
-      </Accordion.Item>
-    </Accordion>
-  </>
+          {(post.writer ? post.writer.id === auth.userId : false) ? <>
+            <Link
+              to={`/series/${post.id}/mng`}
+              state={{ seriesId: state.seriesId, post, state, parentId: state.parentId }}
+            ><Button variant="outline-info">수정</Button></Link>&nbsp;<Button variant="outline-dark" onClick={handleDelete}>삭제</Button></> : ""}
+          <br />
+        </ListGroup.Item>
+      </ListGroup>
+
+
+      <Accordion style={{ width: "60%", margin: "auto" }}>
+        <Accordion.Item eventKey="0">
+          <Accordion.Header>댓글확인</Accordion.Header>
+          <Accordion.Body>
+            <ReplyList parent={post} state={{ seriesId: state.seriesId, post, state, parentId: state.parentId, boardId: state.boardId }} />
+          </Accordion.Body>
+        </Accordion.Item>
+      </Accordion>
+    </>
   }
 }
 

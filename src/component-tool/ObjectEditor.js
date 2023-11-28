@@ -5,11 +5,6 @@ export default function ObjectEditor({id = "",
     obj = {name : "", innerColor : "#f0f0f0", outerColor : "#000000", textColor : "#000000"},
     onSetup = f => f, onEdit = f => f
 }) {
-    const {initVertices, setInitVertices,
-        nowVertices, setNowVertices,
-        initEdges, setInitEdges,
-        nowEdges, setNowEdges} = useContext(ToolContext);
-
     console.log("무엇을 디자인하실 건가요?", obj);
 
     return <tr>

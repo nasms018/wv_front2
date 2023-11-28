@@ -13,6 +13,7 @@ export default function Home() {
   const txtSearch = useRef();
   const xSize = 550;
   const ySize = 700
+  const announcement = "0000";
   const renderSuccess = (data) => {
 
     return (
@@ -56,14 +57,14 @@ export default function Home() {
     let postList2 = postList?.filter((post, i) => i < 7);
 
     return (<>
-      <Table striped bordered hover variant="white" width={xSize} height={ySize / 2 - 50} border="2px">
-        <th><Link style={{ textDecoration: "none", color: "black" }} to={`/board/0000`}
-          state={{ boardId: "0000", page: 1 }}>공지사항</Link></th>
+      <Table striped bordered hover variant="white" width={xSize} height={ySize / 2 - 100} border="2px">
+        <th style={{backgroundColor: "#aa7755"}}><Link style={{ textDecoration: "none", color: "black" }} to={`/board/${announcement}`}
+          state={{ boardId: `${announcement}`, page: 1 }}>공지사항</Link></th>
         {postList2?.map((post, i) =>
           <tr >
             <td>
               <Link style={{ all: "unset", cursor: "pointer" }} key={post.id} to={`/post/${post.id}`}
-                state={{ id: post.id, page: 1, search: txtSearch.current?.value, postListWithPaging, seriesId: "0000", parentId: "0000", boardId: post?.boardVO?.id, likeCount: post.likeCount }}>{/*시리즈아이디필요*/}
+                state={{ id: post.id, page: 1, search: txtSearch.current?.value, postListWithPaging, seriesId: `${announcement}`, parentId: `${announcement}`, boardId: post?.boardVO?.id, post:post }}>{/*시리즈아이디필요*/}
                 {post.title}</Link>
             </td>
           </tr>
@@ -74,20 +75,21 @@ export default function Home() {
   }
 
   return (<>
-    <table>
+  <br/><br/>
+    <table style={{margin:"auto"}}>
       <tr>
-        <td width="10%"></td>
+
         <td rowSpan='2' width={xSize} height={ySize} >
           <Fetch uri={seriesUri} renderSuccess={renderSuccess} />
         </td>
 
-        <td width="5%"></td>
-        <td width={xSize} height={ySize / 2} >
+        <td width="10%"></td>
+        <td width={xSize} height={ySize / 2 -100} >
           <Fetch uri={postUri} renderSuccess={renderSuccessPost} />
-          <tr width={xSize} height={ySize / 2} ><Fetch uri={seriesUri2} renderSuccess={renderSuccess2} /></tr>
+          <tr width={xSize} height={ySize / 2-100} ><Fetch uri={seriesUri2} renderSuccess={renderSuccess2} /></tr>
         </td>
       </tr>
     </table >
-  </>
+ </>
   )
 }

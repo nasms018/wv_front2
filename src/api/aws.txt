@@ -17,7 +17,7 @@ pakage.json
 
 맨마지막에 추가
 ,
-  "homepage": "https://nasms018.github.io/"
+  "homepage": "https://nasms018.github.io/pages/"
 
 axios.js
 주소변경
@@ -26,6 +26,6 @@ setProxy.js
 주소변경
 http://localhost:8080           (복붙하기 좋게 일단 적어둠)
 http://ec2-52-78-208-249.ap-northeast-2.compute.amazonaws.com:8080/
-http://52.78.208.249:8080
 
-http://13.125.107.223
+
+http://ec2-43-200-121-6.ap-northeast-2.compute.amazonaws.com:8080/

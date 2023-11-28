@@ -1,4 +1,4 @@
-import { useLocation } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import ToolManager from "./ToolManager";
@@ -17,9 +17,11 @@ export default function ToolTable({
     console.log("상태 좀 보여줘", state)
     console.log("그래서 뭘 테이블로 만들면 돼?", data)
 
+    const navigate = useNavigate();
+
     const address = `Tool:/${state?.addr}`
 
-    const [nowFunc, setNowFunc] = useState(0)
+    const [nowFunc, setNowFunc] = useState(1)
     const [nowFuncName, setNowFuncName] = useState("선택")
 
     const [selectedId, setSelectedId] = useState()
@@ -75,7 +77,7 @@ export default function ToolTable({
         
     }
 
-    function onSelect(index, name) {
+    function onSelect(name, index) {
         setNowFunc(index)
         setNowFuncName(name)
         setSelectedId()
@@ -96,14 +98,15 @@ export default function ToolTable({
         }
     }
 
-    function onCreate(index, name) {
-        let newData = [...data.firstVal]
+    function onImmediate(name, index) {
         switch (name) {
             case "생성":
+                let newData = [...data.firstVal]
                 newData.unshift({...DEFAULT_SKIN})
                 setData({ ...data, firstVal: newData })
                 break
             default:
+                navigate(-1, {state : state})
         }
     }
 
@@ -125,7 +128,7 @@ export default function ToolTable({
         <thead>
             <tr><th colSpan={4} style={{ ...TABLE_STYLE, textAlign: "left", ...ADDRESS_STYLE }}> ★ {address}</th></tr>
             <tr><td colSpan={4} style={{ ...TABLE_STYLE, textAlign: "center" }}>
-                <Remocon index={nowFunc} writer={state?.writer} type="xpl" onSelect={onSelect} immediate={onCreate} />
+                <Remocon index={nowFunc} writer={state?.writer} type="xpl" onSelect={onSelect} immediate={onImmediate} />
             </td></tr>
             <tr><td colSpan={4} style={{ ...TABLE_STYLE }}>
                 <div style={{ display: "inline-block" }}>

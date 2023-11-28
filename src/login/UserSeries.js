@@ -44,7 +44,11 @@ export default function UserSeries({dataList, setLastIntersectingImage=f=>f, aut
                                             <td>{post.boardVO.id}</td>
                                             <td width="60%"><Link style={{ textDecoration: "none", color: "black" }} to={`/series/${post.id}`} state={{ seriesId: post.id, post: post, page: 1, boardId: post?.boardId }}>{post.title}<br />
                                                 <Button variant="outline-primary" size="sm">작품확인</Button></Link>
-                                                <Link style={{ textDecoration: "none", color: "black" }} ><Button variant="outline-warning" size="sm">통계보기</Button></Link>
+                                                <Link style={{ textDecoration: "none", color: "black" }}
+                                                    to={`/series/${post.id}/statistics`}
+                                                >
+                                                    <Button variant="outline-warning" size="sm">통계보기</Button>
+                                                </Link>
                                             </td>
                                             <td>✔{post.readCount}</td>
                                             <td>🕐{displayDate(post.regDt, post.uptDt)}</td>

@@ -54,8 +54,8 @@ export const ToolContextProvider = ({ children }) => {
         // 타겟의 oneId 있으면 edge 없으면 vertex
         let [targetArray, setTargetArray] =
         target.oneId
-            ? [[...nowEdges], setNowEdges]
-            : [[...nowVertices], setNowVertices]
+            ? [[...initEdges], setInitEdges]
+            : [[...initVertices], setInitVertices]
         // 타겟 어레이에서 타겟과 아이디가 일치하는 것을 찾아서 제거하고 다시 넣기
         let newTargetArray = targetArray.filter(tgt =>  tgt.id !== target.id)
         newTargetArray.push(target)
@@ -84,6 +84,14 @@ export const ToolContextProvider = ({ children }) => {
         )
     }
 
+    function onRename(e, id) {
+        let newName = e.target.value;
+        let copyList = [...nowObjectList];
+        let targetIndex = copyList.map((obj, index) => [obj, index]).filter(lst => lst[0].id === id)[0][1]
+        copyList[targetIndex].name = newName;
+        setNowObjectList(copyList)
+    }
+
     useMemo(() => {
         console.log("너희들 뭐하니?", nowVertices, nowEdges)
     }, [nowVertices, nowEdges])
@@ -99,7 +107,7 @@ export const ToolContextProvider = ({ children }) => {
             initYToolSize, setInitYToolSize,
             nowObjectList, setNowObjectList,
             onSummonObject, onDeleteAllObjects,
-            onUpdate, onSaveTool
+            onUpdate, onSaveTool, onRename
         }}>
             {children}
         </ToolContext.Provider>

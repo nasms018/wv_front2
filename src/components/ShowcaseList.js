@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Col } from "react-bootstrap";
-import { useEffect, useMemo, useContext } from "react";
+import { useEffect, useMemo, useContext, useState } from "react";
 import OriginalViewOne from "atom/OriginalViewOne";
 import axios from "api/axios";
 import Container from "react-bootstrap/Container";
@@ -17,7 +17,8 @@ export default function ShowcaseList({ page, setPage = f => f, postList, setPost
   listAttachFile, setByKeyWord = f => f, isSeries, txtSearch, onSearch = f => f, GenreCanvas = f => f }) {
   const param = useParams();
   console.log("PostListObserver param", param);
-
+    const [xSize] = useState(230);
+    const [ySize] = useState("auto");
   useEffect((e) => {
 
     window.scrollTo({ top: 0 });
@@ -111,11 +112,11 @@ export default function ShowcaseList({ page, setPage = f => f, postList, setPost
             return (
 
               <Col id={post?.id} ref={setLastIntersectingImage}>
-                <Card id={post?.id} style={{ width: '15rem' }} ><br />
+                <Card id={post?.id} style={{ width: '15rem' }} >
                   <Link style={{ textDecoration: "none", color: "black" }} to={`/series/${post.id}`} state={{ seriesId: post.id, page: 1, boardId: param?.boardId }}>
                     {post.listAttachFile?.length === 0 ?
-                      <Image src={process.env.PUBLIC_URL + `/images/WVseries.jpg`} width="200" height="auto" rounded />
-                      : <OriginalViewOne imgDtoList={post.listAttachFile} x="200" y="auto" />}
+                      <Image src={process.env.PUBLIC_URL + `/images/WVseries.jpg`} width={xSize} height={ySize} rounded />
+                      : <OriginalViewOne imgDtoList={post.listAttachFile} x={xSize} y={ySize} />}
                   </Link>
                   <Card.Body>
                     <Card.Title>{post?.title}
@@ -133,11 +134,11 @@ export default function ShowcaseList({ page, setPage = f => f, postList, setPost
             return (
 
               <Col id={post?.id}>
-                <Card id={post?.id} style={{ width: '15rem' }} ><br />
+                <Card id={post?.id} style={{ width: '15rem' }} >
                   <Link style={{ textDecoration: "none", color: "black" }} to={`/series/${post.id}`} state={{ seriesId: post.id, page: 1, boardId: param?.boardId }}>
                     {post.listAttachFile?.length === 0 ?
-                      <Image src={process.env.PUBLIC_URL + `/images/WVseries.jpg`} width="200" height="auto" rounded />
-                      : <OriginalViewOne imgDtoList={post.listAttachFile} x="200" y="auto" />}
+                      <Image src={process.env.PUBLIC_URL + `/images/WVseries.jpg`} width={xSize} height={ySize} rounded />
+                      : <OriginalViewOne imgDtoList={post.listAttachFile} x={xSize} y={ySize} />}
                   </Link>
                   <Card.Body>
                     <Card.Title>{post?.title}

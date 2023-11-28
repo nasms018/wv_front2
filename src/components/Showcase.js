@@ -35,14 +35,6 @@ export default function Showcase() {
     }, [param.boardId, param.genreId])
 
 
-
-    const onChange = async (genId) => {
-        console.log("온체인지클릭")
-        setPage(1)
-        setPostList([])
-        navigate(`/board/${param.boardId}/${genId}`)
-    }
-
     function GenreCanvas() {
         const { genreCodeList } = useContext(AppContext);
         const [show, setShow] = useState(false);
@@ -79,7 +71,7 @@ export default function Showcase() {
             onSearch={onSearch}
             txtSearch={txtSearch}
             GenreCanvas={GenreCanvas}
-            onChange={onChange}
+           
         />
     </>
 }

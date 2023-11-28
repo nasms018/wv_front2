@@ -11,7 +11,8 @@ export default function ReplyList({ parent }) {
   const { auth } = useContext(AppContext);
   const location = useLocation();
   const state = location.state;
-  console.log(parent);
+  //console.log(parent);
+  console.log(state)
   const [justCreatedReplyList, setJustCreatedReplyList] = useState([]);
   const [openAddReplay] = useState(new Map());
   const [replayOnReply] = useState(new Map());
@@ -31,7 +32,7 @@ export default function ReplyList({ parent }) {
   const handleDelete = async (e, reply) => {
     e.preventDefault();
     try {
-      const data = await axios.delete(`/work/${reply.id}`,
+      const data = await axios.delete(`/work/${reply?.id}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -74,17 +75,21 @@ export default function ReplyList({ parent }) {
       );
       const reply = response.data;
       setJustCreatedReplyList([reply, ...justCreatedReplyList]);
+
       replayOnReply.set(parentId, "");
       setRenderCnt(renderCnt + 1);
 
-      window.location.replace(`/post/${state.id}`);  //페이지 새로고침
+      //window.location.replace(`/post/${state.id}`);  //페이지 새로고침
     } catch (err) {
       console.log('Registration Failed');
+    } finally {
+      console.log('Delete state', state);
+      navigate(0, { state: state });
     }
   }
 
   function appendJustCreatedReply(newReply, parent) {
-    if (parent.listReply && !parent?.listReply.includes(newReply))
+    if (parent?.listReply && !parent?.listReply.includes(newReply))
       parent.listReply = [newReply, ...parent.listReply];
   }
 
@@ -92,20 +97,20 @@ export default function ReplyList({ parent }) {
 
   return <>
     {auth.nick ? <>
-      <Button size="sm" variant="outline-primary" onClick={(e) => { markShowAddReply(e, parent.id) }}>
+      <Button size="sm" variant="outline-primary" onClick={(e) => { markShowAddReply(e, parent?.id) }}>
         댓글
       </Button>
     </> : ""}
-    {openAddReplay.has(parent.id) ?
-      <ReplyNew auth={auth} reply={parent} state={{ seriesId: state.seriesId, parent, state, parentId: state.parentId }} replayOnReply={replayOnReply} onInputReplyContent={onInputReplyContent} mngReply={mngReply} />
+    {openAddReplay.has(parent?.id) ?
+      <ReplyNew auth={auth} reply={parent} replayOnReply={replayOnReply} onInputReplyContent={onInputReplyContent} mngReply={mngReply} handleDelete={handleDelete} />
       : ""}
     <ul>
       {parent.repliesList?.map((reply) => {
-        return <li key={reply.id} align="left">
+        return <li key={reply?.id} align="left">
           <span>{reply.content}</span>
           &nbsp;&nbsp; <span>{displayDate(reply.regDt, reply.uptDt)} </span>
           &nbsp;&nbsp; <span><LoginTypeIcon loginType={reply?.writer?.accountType} />{!reply.writer?.nick ? reply.writer?.kakaoNick : reply.writer?.nick} </span>
-          <Button size="sm" variant="outline-dark" onClick={(e) => handleDelete(e, reply)}>삭제</Button>{console.log(reply)}
+          <Button size="sm" variant="outline-dark" onClick={(e) => handleDelete(e, reply)}>삭제</Button>
           <ReplyList parent={reply} />
         </li>
       })}

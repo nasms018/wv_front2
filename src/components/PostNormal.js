@@ -15,7 +15,12 @@ export default function PostNormal() {
   const { auth } = useContext(AppContext);
   const location = useLocation();
   const state = location.state;
+  console.log(state)
+  const backgroundColorTD = {
+    backgroundColor: "#aa7755"
+}
   function buildUrl(step) {
+  
     if (state?.search)
       return `/work/anonymous/search/${state?.boardId}/${state?.search}/${state.page}`;
     else
@@ -51,21 +56,22 @@ export default function PostNormal() {
 
       <Table striped bordered hover responsive variant="white">
         <thead>
-          <th><p></p></th>
-          <th><p>게시글</p></th>
-          <th><p>게시자</p></th>
-          <th><p>조회수</p></th>
-          <th><p>좋아요</p></th>
-          <th><p>작성일</p></th>
+          <tr>
+          <th style={backgroundColorTD}></th>
+          <th style={backgroundColorTD}>게시글</th>
+          <th style={backgroundColorTD}>게시자</th>
+          <th style={backgroundColorTD}>조회수</th>
+          <th style={backgroundColorTD}>좋아요</th>
+          <th style={backgroundColorTD}>작성일</th>
+          </tr>
         </thead>
         <tbody>
           {postList?.map(post => (
             <tr key={post.id}>
-
-              <td><ThumbnailList imgDtoList={post?.listAttachFile} /></td>
+              <td></td>
               <td width="60%">
                 <Link style={{ all: "unset", cursor: "pointer" }} key={post.id} to={`/post/${post.id}`}
-                  state={{ page: state.page, search: txtSearch.current?.value, seriesId: state?.seriesId, parentId: state?.seriesId, post: post }}>{/*시리즈아이디필요*/}
+                  state={{ boardId:state.boardId, page: state.page, search: txtSearch.current?.value, seriesId: state?.seriesId, parentId: state?.seriesId, post: post }}>{/*시리즈아이디필요*/}
                   {post.title}</Link>
               </td>
               <td><LoginTypeIcon loginType={post?.writer?.accountType} />{!post.writer?.nick ? post.writer?.kakaoNick : post.writer?.nick}</td>
@@ -88,7 +94,8 @@ export default function PostNormal() {
   return (
     <div>
       <table style={{ margin: "auto", position: "static" }}><td>
-        {!auth.roles || auth.roles.length === 0 ? "" :
+        {state.boardId==="0000"?"":
+        !auth.roles || auth.roles.length === 0 ? "" :
           <Link style={{ marginLeft: "auto", position: "relative" }} to={`/series/${state.boardId}/mng`} state={{ seriesId: state.boardId, parentId: state.boardId, boardId: state.boardId, post: { boardVO: { id: state.boardId }, listAttachFile: [] } }}>
             <Button variant="outline-primary">신규</Button>
           </Link>}

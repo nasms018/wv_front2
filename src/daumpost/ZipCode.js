@@ -30,7 +30,8 @@ export const ZipCode = (props) => {
     height: "600px",
     padding: "7px",
     background: "rgba(0,0,0,0.25)",
-    border: "solid"
+    border: "solid",
+    zIndex: "2"
   };
 
   return (

@@ -3,7 +3,7 @@ import ToolContext from './ToolContextProvider';
 import AppContext from 'context/AppContextProvider';
 import Remocon from '../toolbox/Remocon';
 import UseGestureElement from '../toolbox/UseGestureElement';
-import { useLocation } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 import { Button } from 'react-bootstrap';
 import { isAnyDanger } from './PropAccordion';
 import { X_MAX_TOOLSIZE, X_MIN_TOOLSIZE, Y_MAX_TOOLSIZE, Y_MIN_TOOLSIZE } from './ToolManager';
@@ -33,10 +33,12 @@ export default function GraphCanvas() {
         initYToolSize, setInitYToolSize,
         nowObjectList,
         onSummonObject, onDeleteAllObjects,
-        onSaveTool
+        onSaveTool, onRename
     } = useContext(ToolContext);
 
     const { auth } = useContext(AppContext);
+
+    const navigate = useNavigate();
 
     const location = useLocation();
     const state = location.state;
@@ -44,7 +46,7 @@ export default function GraphCanvas() {
 
     const canvasRef = useRef()
 
-    const [nowFunc, setNowFunc] = useState(0)
+    const [nowFunc, setNowFunc] = useState(1)
     const [nowFuncName, setNowFuncName] = useState("선택")
     // 위에는 id랑, 아래는 이름이랑 엮기 - 복붙시 위에만 증가
     const [realSummonedCnt, setRealSummonedCnt] = useState(0)
@@ -55,7 +57,7 @@ export default function GraphCanvas() {
     // 재귀함수로 삭제할 때 이미 삭제할 것으로 정해진 애들을 기억해서 무시할 수 있도록 하는 용도
     const [memo, setMemo] = useState([])
 
-    function onSelect(index, name) {
+    function onSelect(name, index) {
         setNowFunc(index)
         setNowFuncName(name)
         setSelectedId()
@@ -92,7 +94,7 @@ export default function GraphCanvas() {
         let ctx = canvasRef.current?.getContext("2d")
 
         ctx?.reset()
-        
+
         nowEdges.forEach((relation) => {
             // 각 relation마다 시작
             ctx?.beginPath()
@@ -137,7 +139,7 @@ export default function GraphCanvas() {
 
     function onMove(set, type, index, newPoint) {
         let copyObjects = [...set]
-        copyObjects[index] = { ...newPoint, edited : true }
+        copyObjects[index] = { ...newPoint, edited: true }
         console.log("움직인 결과물 좀 보자", copyObjects[index])
         if (type !== "edge") {
             setNowVertices(copyObjects)
@@ -152,7 +154,8 @@ export default function GraphCanvas() {
             let copyObjects = [...set]
             let nowObj = copyObjects[index] // 얘 이상해서 고쳤더니 다른 버그들도 해결됐다......?
             // 새로운 툴 사이즈는 현재 트랙커의 중심에서 다시 해당 객체의 위치를 빼서 계산
-            copyObjects[index] = { ...nowObj,
+            copyObjects[index] = {
+                ...nowObj,
                 xSize: newPoint.xPos - nowObj.xPos,
                 ySize: newPoint.yPos - nowObj.yPos
             }
@@ -185,7 +188,8 @@ export default function GraphCanvas() {
                 let newY = clkY - (clkY > yToolSize / 2 ? DEFAULT_VERTEX_Y_SIZE : 0)
                 let newId = "----" + (realSummonedCnt + 1)
                 let newName = defaultObject.name ? defaultObject.name : "object - " + (summonedCnt + 1)
-                let newVertex = { ...defaultObject,
+                let newVertex = {
+                    ...defaultObject,
                     id: newId, name: newName, xPos: newX, yPos: newY,
                     xSize: DEFAULT_VERTEX_X_SIZE, ySize: DEFAULT_VERTEX_Y_SIZE,
                     customPropertiesList: []
@@ -240,11 +244,12 @@ export default function GraphCanvas() {
                                     - [DEFAULT_EDGE_X_SIZE, DEFAULT_EDGE_Y_SIZE][i] / 2
                                 )
                             })
-                    let newEdge = { ...defaultObject,
+                    let newEdge = {
+                        ...defaultObject,
                         id: newId, name: newName, xPos: newX, yPos: newY,
                         xSize: DEFAULT_EDGE_X_SIZE, ySize: DEFAULT_EDGE_Y_SIZE,
                         // 먼저 선택한 걸 one에, 나중에 선택한 걸 other에
-                        oneId: selectedId , otherId: targetId,
+                        oneId: selectedId, otherId: targetId,
                         customPropertiesList: []
                     }
                     let newNowEdgeArray = nowEdges.concat(newEdge)
@@ -313,8 +318,8 @@ export default function GraphCanvas() {
 
         let [initArray, nowArray, setInitArray, setNowArray] =
             resultType === "vertex"
-            ? [initVertices, nowVertices, setInitVertices, setNowVertices]
-            : [initEdges, nowEdges, setInitEdges, setNowEdges]
+                ? [initVertices, nowVertices, setInitVertices, setNowVertices]
+                : [initEdges, nowEdges, setInitEdges, setNowEdges]
 
         let resultIndex = extractIndex(nowArray, objId)
         return [resultType, resultIndex, initArray, nowArray, setInitArray, setNowArray]
@@ -351,23 +356,33 @@ export default function GraphCanvas() {
     }
 
     function onSetup(e, prop) {
-        let copyDefault = {...defaultObject}
+        let copyDefault = { ...defaultObject }
         copyDefault[prop] = e.target.value
         setDefaultObject(copyDefault)
     }
 
     function onEdit(e, prop, id) {
         let [, resultIndex, initArray, nowArray, setInitArray, setNowArray] = findTypeAndIndexOf(id);
+        if (prop === "name") {
+            onRename(e, id)
+        };
         copySet(e, initArray, resultIndex, prop, setInitArray);
         copySet(e, nowArray, resultIndex, prop, setNowArray);
     }
 
     function copySet(e, array, index, prop, setFunc = f => f) {
         let copyInitArray = [...array];
-        let copyInitObj = {...copyInitArray[index]};
+        let copyInitObj = { ...copyInitArray[index] };
         copyInitObj[prop] = e.target.value;
         copyInitArray[index] = copyInitObj;
         setFunc(copyInitArray);
+    }
+
+    function onImmediate(name, index) {
+        switch (name) {
+            default:
+                navigate(-1, {state : state})
+        }
     }
 
     // 무조건 한 번 그리고
@@ -381,7 +396,7 @@ export default function GraphCanvas() {
     return <table>
         <tr>
             <td>
-                <Remocon index={nowFunc} writer={writer} type="rel" onSelect={onSelect} />
+                <Remocon index={nowFunc} writer={writer} type="rel" onSelect={onSelect} immediate={onImmediate} />
             </td>
             <td>
                 {console.log("야 너희 둘 같아?", auth.userId, writer?.id)}
@@ -401,7 +416,7 @@ export default function GraphCanvas() {
                 }
             </td>
         </tr>
-        <ObjectEditor id={selectedId} obj={selectedId ? findById(selectedId) : defaultObject} onSetup={onSetup} onEdit={onEdit}/>
+        <ObjectEditor id={selectedId} obj={selectedId ? findById(selectedId) : defaultObject} onSetup={onSetup} onEdit={onEdit} />
         <tr><td colSpan={2}>
             <div style={{ position: "relative", width: xToolSize, height: yToolSize, margin: "auto" }}>
                 <canvas class="Canvas" ref={canvasRef} width={xToolSize} height={yToolSize}
@@ -421,7 +436,7 @@ export default function GraphCanvas() {
                         onClick={(e) => objectExecute(nowFuncName, e, "edge")}
                         bound={canvasBound(init, xToolSize, yToolSize, edge)}
                         style={
-                            {borderColor : edge.outerColor, backgroundColor : edge.innerColor, color : edge.textColor}
+                            { borderColor: edge.outerColor, backgroundColor: edge.innerColor, color: edge.textColor }
                         }
                     />
                 })}
@@ -438,7 +453,7 @@ export default function GraphCanvas() {
                         onClick={(e) => objectExecute(nowFuncName, e, "vertex")}
                         bound={canvasBound(init, xToolSize, yToolSize, vertex)}
                         style={
-                            {borderColor : vertex.outerColor, backgroundColor : vertex.innerColor, color : vertex.textColor}
+                            { borderColor: vertex.outerColor, backgroundColor: vertex.innerColor, color: vertex.textColor }
                         }
                     />
                 })}

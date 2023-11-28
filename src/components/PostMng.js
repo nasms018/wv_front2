@@ -100,8 +100,9 @@ export default function PostMng() {
 		}
 	}
 
-	return <Form>
-		<h3>글쓰기</h3>
+	return <Form style={{width:"55%", margin: "auto" }}>
+		<fieldset>
+        <legend>글작성</legend>
 		<Form.Group className="mb-3" >
 			<Form.Control
 				type="text"
@@ -134,7 +135,7 @@ export default function PostMng() {
 		<Button variant="outline-dark" onClick={handleDelete}>
 			삭제
 		</Button>
-
+		</fieldset>
 	</Form>
 }
 

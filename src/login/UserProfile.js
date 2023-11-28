@@ -179,8 +179,9 @@ export default function UserProfile() {
     }
   }
   console.log("지금 우리가 뭘 던지려고 하는 거야?", listCP);
-  return (<Form controlId={loginId}>
-    <h4>프로필</h4>
+  return (<Form controlId={loginId} style={{width:"60%", margin: "auto" }}>
+        <fieldset>
+        <legend>프로필</legend>
 
     <FloatingLabel
       controlId="floatingInput"
@@ -370,5 +371,6 @@ export default function UserProfile() {
     <Button variant="outline-dark" onClick={handleDelete}>
       탈퇴
     </Button>
+    </fieldset>
   </Form >)
 };

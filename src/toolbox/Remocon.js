@@ -2,7 +2,7 @@ import { useContext } from "react"
 import AppContext from "context/AppContextProvider";
 
 
-export default function Remocon({ index = 0, type = "", writer, onSelect = f => f, immediate = f => f }) {
+export default function Remocon({ index = 1, type = "", writer, onSelect = f => f, immediate = f => f }) {
     const { auth, relationRemocon, explorerRemocon } = useContext(AppContext);
     const selectedRemocon =
         type === "rel"
@@ -26,8 +26,8 @@ export default function Remocon({ index = 0, type = "", writer, onSelect = f => 
         {remoteKeyList?.filter(key => remoconAuth(auth, writer, key.auth)).map(
             (rmt, index) => <button onClick={
                 () => rmt.isImmediate
-                ? immediate(index, rmt.name)
-                : onSelect(index, rmt.name)
+                ? immediate(rmt.name, index)
+                : onSelect(rmt.name, index)
             }>{rmt.name}</button>
         )}
     </div>
